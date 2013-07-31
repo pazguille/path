@@ -1,0 +1,14 @@
+{
+  "name": "path",
+  "repo": "pazguille/path",
+  "description": "Simple routing library using HTML5 history.pushState for web browsers.",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}
