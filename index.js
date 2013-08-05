@@ -249,6 +249,12 @@ path.load = function (pathname, title, data) {
     return path;
 };
 
+path.remove = function (pathname, listener) {
+    router.remove(pathname, listener);
+
+    return path;
+};
+
 /**
  * Expose path
  */
