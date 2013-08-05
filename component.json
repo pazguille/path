@@ -1,13 +1,21 @@
 {
   "name": "path",
   "repo": "pazguille/path",
-  "description": "Simple routing library using HTML5 history.pushState for web browsers.",
+  "description": "Simple routing library using HTML5 history.pushState or hashbang for web browsers.",
   "version": "0.0.1",
-  "keywords": [],
+  "author": "Guille Paz <guille87paz@gmail.com>",
+  "twitter": "@pazguille",
+  "keywords": [
+    "routes",
+    "path",
+    "popstate",
+    "pushstate",
+    "history",
+    "hashbang"
+  ],
   "dependencies": {},
   "development": {},
   "license": "MIT",
-  "main": "index.js",
   "scripts": [
     "index.js"
   ]
