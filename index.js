@@ -1,20 +1,38 @@
 var win = window,
     doc = win.document,
     location = win.location,
-    on = 'addEventListener',
-    loadEvent = 'load',
-    clickEvent = 'click',
-    hashchangeEvent = 'hashchange',
+    on = win.addEventListener ? 'addEventListener' : 'attachEvent',
+    loadEvent = (on === 'attachEvent') ? 'onload' : 'load',
+    clickEvent = (on === 'attachEvent') ? 'onclick' : 'click',
+    hashchangeEvent = (on === 'attachEvent') ? 'onhashchange' : 'hashchange',
+    supported = (win.onpopstate !== undefined),
     updateEvent = 'popstate',
-    router;
+    navigationBar = true,
+    router,
+    getCurrentPath = function (target) {
+        return target.pathname;
+    },
+    pushState = function (path, title, data) {
+        win.history.pushState(data, title, path);
+        doc.title = title;
+    };
 
-function getCurrentPath(target) {
-    return target.pathname;
-}
+if (!supported) {
+    updateEvent = loadEvent;
 
-function pushState(path, title, data) {
-    win.history.pushState(data, title, path);
-    doc.title = title;
+    getCurrentPath = function (target) {
+        return target.hash.split('#!')[1];
+    };
+
+    pushState = function (path, title, data) {
+        var hash = location.hash.match(/\#!?\/?(.[^\?|\&|\s]+)/),
+            regExp;
+
+        hash  = hash ? hash[1] : '/' ;
+        regExp = new RegExp(hash);
+        location.hash.replace(regExp, path);
+        doc.title = title;
+    };
 }
 
 /**
@@ -75,9 +93,28 @@ Router.prototype.init = function () {
 
             that.load(getCurrentPath(target), target.title, {});
 
-            eve.preventDefault();
+            if (supported) {
+                eve.preventDefault();
+            } else {
+                navigationBar = false;
+            }
         }
     });
+
+    if (!supported) {
+
+        win[on](hashchangeEvent, function () {
+
+            if (navigationBar) {
+                var path = location.hash.match(/\#!?(.[^\?|\&|\s]+)/);
+                path  = path ? path[1] : '/' ;
+                that.currentPath = path;
+                that.match(that.currentPath);
+            }
+
+            navigationBar = true;
+        });
+    }
 
     return this;
 
