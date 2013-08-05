@@ -255,6 +255,10 @@ path.remove = function (pathname, listener) {
     return path;
 };
 
+path.getListeners = function (pathname) {
+    return router.getListeners(pathname);
+};
+
 /**
  * Expose path
  */
