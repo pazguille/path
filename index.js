@@ -243,6 +243,12 @@ function path() {
     return path;
 }
 
+path.load = function (pathname, title, data) {
+    router.load(pathname, title, data);
+
+    return path;
+};
+
 /**
  * Expose path
  */
