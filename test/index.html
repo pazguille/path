@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Path JS Component</title>
+    </head>
+    <body>
+        <h2>Path</h2>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/contact" data-path title="Contact | Path JS Component">Contact</a>
+            </li>
+            <li>
+                <a href="/about" data-path>About us</a>
+            </li>
+            <li>
+                <a href="/services" data-path>Services</a>
+            </li>
+            <li>
+                <a href="/user/pazguille" data-path>User</a> | <a href="/user/pazguille/edit" data-path title="Edit | Path JS Component">Edit</a>
+            </li>
+            <li>
+                <a href="http://www.google.com/about">External link</a>
+            </li>
+            <li>
+                <a href="#hash">Hash</a>
+            </li>
+        </ul>
+
+        <h2>Hahes</h2>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/#!/contact" data-path>Contact</a>
+            </li>
+            <li>
+                <a href="/#!/about" data-path>About us</a>
+            </li>
+            <li>
+                <a href="/#!/services" data-path>Services</a>
+            </li>
+            <li>
+                <a href="/#!/user/pazguille" data-path>User</a> | <a href="/#!/user/pazguille/edit" data-path>Edit</a>
+            </li>
+            <li>
+                <a href="http://www.google.com/about" data-path>External link</a>
+            </li>
+        </ul>
+        <script src="../build/build.js"></script>
+        <script>
+
+            var path = require('path');
+
+            function all() {
+                console.log('All!');
+            }
+
+            function all2() {
+                console.log('Another All!');
+            }
+
+            function all3() {
+                console.log('Yay!');
+            }
+
+            function home() {
+                console.log('Home!');
+            }
+
+            function user(id) {
+                console.log(id);
+            }
+
+            function user2(id, action) {
+                console.log(action);
+            }
+
+            function contact() {
+                console.log('Contact!');
+            }
+
+            // Adds new routes to the collection paths
+            path({
+                '/': home,
+                '/user/:id': user,
+                '/user/:id/:action': user2,
+                '/contact': contact
+            });
+
+            path(all, all2);
+
+            path('*', all3);
+
+        </script>
+    </body>
+</html>
