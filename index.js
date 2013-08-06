@@ -14,6 +14,8 @@ var win = window,
     },
     pushState = function (path, title, data) {
         win.history.pushState(data, title, path);
+
+        // title is currently ignored by History API.
         doc.title = title;
     };
 
@@ -21,14 +23,14 @@ if (!supported) {
     updateEvent = loadEvent;
 
     getCurrentPath = function (target) {
-        return target.hash.split('#!')[1];
+        return target.hash.split('#!')[1] || '/';
     };
 
     pushState = function (path, title, data) {
         var hash = location.hash.match(/\#!?\/?(.[^\?|\&|\s]+)/),
             regExp;
 
-        hash  = hash ? hash[1] : '/' ;
+        hash  = hash ? hash[1] : '/';
         regExp = new RegExp(hash);
         location.hash.replace(regExp, path);
         doc.title = title;
@@ -60,26 +62,17 @@ Router.prototype.init = function () {
 
     var that = this;
     this._collection = {};
-    this.state = {};
 
     win[on](updateEvent, function () {
-        var path = getCurrentPath(location);
-
-        that.currentState = path;
-
-        if (path === '/' || path === undefined) {
-            that.match('/');
-        } else {
-            that.match(path);
-        }
+        that.currentState = getCurrentPath(location);
+        that.match(that.currentState);
 
     }, false);
 
-    document[on](clickEvent, function (eve) {
+    doc[on](clickEvent, function (eve) {
         eve = eve || win.event;
 
-        var target = eve.target || eve.srcElement,
-            path;
+        var target = eve.target || eve.srcElement;
 
         if (target.nodeName === 'A' && target.getAttribute('data-path') !== null) {
             if (eve.which > 1 || eve.metaKey || eve.ctrlKey || eve.shiftKey || eve.altKey) {
@@ -107,7 +100,7 @@ Router.prototype.init = function () {
 
             if (navigationBar) {
                 var path = location.hash.match(/\#!?(.[^\?|\&|\s]+)/);
-                path  = path ? path[1] : '/' ;
+                path = path ? path[1] : '/';
                 that.currentPath = path;
                 that.match(that.currentPath);
             }
@@ -179,10 +172,10 @@ Router.prototype.define = function (path, listener) {
     if (this._collection[path] === undefined) {
         this._collection[path] = {
             'listeners': []
-        }
+        };
 
         if (path !== '*') {
-            this._collection[path].regexp = new RegExp('^' + path.replace(/:\w+/g, '([^\\/]+)').replace(/\//g, '\\/') + '$')
+            this._collection[path].regexp = new RegExp('^' + path.replace(/:\w+/g, '([^\\/]+)').replace(/\//g, '\\/') + '$');
         }
     }
 
