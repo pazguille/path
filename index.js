@@ -20,8 +20,6 @@ var win = window,
     };
 
 if (!supported) {
-    updateEvent = loadEvent;
-
     getCurrentPath = function (target) {
         return target.hash.split('#!')[1] || '/';
     };
@@ -63,10 +61,14 @@ Router.prototype.init = function () {
     var that = this;
     this._collection = {};
 
+    win[on](loadEvent, function () {
+        that.currentState = getCurrentPath(location);
+        that.match(that.currentState);
+    }, false);
+
     win[on](updateEvent, function () {
         that.currentState = getCurrentPath(location);
         that.match(that.currentState);
-
     }, false);
 
     doc[on](clickEvent, function (eve) {
@@ -186,7 +188,7 @@ Router.prototype.define = function (path, listener) {
 };
 
 /**
- * Removes a path and its litener from the collection with the given path.
+ * Removes a path or its litener from the collection with the given path.
  * @param {string} path
  * @param {funtion} listener
  */
