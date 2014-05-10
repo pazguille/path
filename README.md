@@ -70,7 +70,7 @@ path('/user/:id', user);
 ```
 
 ### path#remove(path, listener)
-Removes a `path` and its `litener` from the collection with the given `path`. The `listener` is optional.
+Removes a `path` or its `litener` from the collection with the given `path`. The `listener` is optional.
 - `path` - The path you want to remove.
 - `listener` [optional] - Listener you want to remove from given path.
 
