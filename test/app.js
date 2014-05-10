@@ -7,7 +7,8 @@ var express = require('express'),
 /**
  * App configuration.
  */
-app.use(express.static(__dirname + '/'));
+app.use('/', express.static(__dirname + '/'));
+app.use('/contact', express.static(__dirname + '/'));
 app.use('/build', express.static(__dirname + '/../build'));
 app.use('/standalone', express.static(__dirname + '/../standalone'));
 
