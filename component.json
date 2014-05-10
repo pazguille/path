@@ -2,7 +2,7 @@
   "name": "path",
   "repo": "pazguille/path",
   "description": "Simple routing library using HTML5 history.pushState or hashbang for web browsers.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Guille Paz <guille87paz@gmail.com>",
   "twitter": "@pazguille",
   "keywords": [
